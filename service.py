@@ -72,10 +72,10 @@ def avaliarVizinho(novaLinha, novaColuna, custoAcumulado, noPai, pontoFinal, map
         
     novoCustoAcumulado = custoAcumulado + custoDoPasso
 
-    nunca_visitado = (mapaNovo[novaLinha][novaColuna] == 0 and (novaLinha, novaColuna) != (0,0))
-    caminho_mais_barato = (mapaNovo[novaLinha][novaColuna] != 0 and novoCustoAcumulado < mapaNovo[novaLinha][novaColuna])
+    nuncaVisitado = (mapaNovo[novaLinha][novaColuna] == 0 and (novaLinha, novaColuna) != (0,0))
+    caminhoMaisBarato = (mapaNovo[novaLinha][novaColuna] != 0 and novoCustoAcumulado < mapaNovo[novaLinha][novaColuna])
     
-    if nunca_visitado or caminho_mais_barato:
+    if nuncaVisitado or caminhoMaisBarato:
         
         mapaNovo[novaLinha][novaColuna] = novoCustoAcumulado
         matrizPai[novaLinha][novaColuna] = noPai
@@ -85,38 +85,6 @@ def avaliarVizinho(novaLinha, novaColuna, custoAcumulado, noPai, pontoFinal, map
         custoTotal = novoCustoAcumulado + estimativa
         
         fila.append((custoTotal, novoCustoAcumulado, (novaLinha, novaColuna)))
-
-
-def exibirResultados(nomeBusca, pontoFinal, nosExpandidos, tempoMs, matrizPai, mapa):
-    caminho = []
-    atual = pontoFinal
-    while atual is not None:
-        caminho.append(atual)
-        atual = matrizPai[atual[0]][atual[1]]
-      
-    caminho.reverse()
-    custoTotal = 0
-    
-    custoAcumulado = 0
-    for coordenada in caminho:  
-        linha = coordenada[0]
-        coluna = coordenada[1]
-        valorTerreno = mapa[linha][coluna]
-
-        if isinstance(valorTerreno, int) and valorTerreno != -1:
-            custoAcumulado += valorTerreno
-
-
-    print(f"\nDeseja ver o caminho percorrido da {nomeBusca}? (s/n)")
-    resposta = input().strip().lower() 
-    if resposta == 's':
-        animarCaminho(nomeBusca, mapa, len(mapa), caminho, matrizPai)
-        print('Caminhos encontrados: ', caminho)
-        print ('Nós expandidos: ', nosExpandidos)
-        print('Tempo de execução:', tempoMs, 'milissegundos')
-        print('Custo Acumulado: ', custoAcumulado)
-
-    dadosComparacao.append([nomeBusca, nosExpandidos, f"{tempoMs:.2f} ms", custoAcumulado])
 
 
 def animarCaminho(nomeBusca, mapa, tamanho, caminho, matrizPai):
@@ -170,6 +138,42 @@ def animarCaminho(nomeBusca, mapa, tamanho, caminho, matrizPai):
         
     sys.stdout.write(f"\033[{linhas_do_grid}B")
     print(f" {nomeBusca} concluída com sucesso!\n")
+
+
+def exibirResultados(nomeBusca, pontoFinal, nosExpandidos, tempoMs, matrizPai, mapa):
+    caminho = []
+    atual = pontoFinal
+    while atual is not None:
+        caminho.append(atual)
+        atual = matrizPai[atual[0]][atual[1]]
+      
+    caminho.reverse()
+    custoAcumulado = 0
+
+    for coordenada in caminho:  
+        linha = coordenada[0]
+        coluna = coordenada[1]
+        valorTerreno = mapa[linha][coluna]
+
+        if isinstance(valorTerreno, int) and valorTerreno != -1:
+            custoAcumulado += valorTerreno
+
+    while True:
+        print(f"\nDeseja ver o caminho percorrido da {nomeBusca}? (s/n)")#não ter todos os resultados de uma só vez
+        resposta = input().strip().lower() 
+        if resposta == 's':
+            animarCaminho(nomeBusca, mapa, len(mapa), caminho, matrizPai)
+            print('Caminhos encontrados: ', caminho)
+            print ('Nós expandidos: ', nosExpandidos)
+            print('Tempo de execução:', tempoMs, 'milissegundos')
+            print('Custo Acumulado: ', custoAcumulado)
+            break
+        elif resposta == 'n':
+            break
+        else:
+            print(f'Resposta Invalida.')
+
+    dadosComparacao.append([nomeBusca, nosExpandidos, f"{tempoMs:.2f} ms", custoAcumulado])
 
 
 def exibirTabelaComparacao():

@@ -16,10 +16,3 @@ O labirinto é gerado em formato de matriz. Os custos de movimentação variam d
 * **Grama:** Custo de movimento = `2`
 * **Lama:** Custo de movimento = `5`
 * **Paredes (Obstáculos):** Intransponíveis (Representadas por `■`)
-
-## Resultados e Comparação de Desempenho
-Ao finalizar a execução, o sistema gera uma tabela comparativa evidenciando a eficiência das heurísticas. Nos testes realizados, a Busca Gulosa e o A* provaram ser muito mais eficientes, expandindo significativamente menos nós (14 e 21 nós, respectivamente) em comparação com as buscas cegas (Largura expandiu 98 nós) para encontrar caminhos com o mesmo custo final.
-
-![Tabela de Comparação dos Algoritmos](imagem_2026-05-18_160542538.png)
-
-![Visualização do Labirinto e Caminho Percorrido](image_e97f2a.png)
